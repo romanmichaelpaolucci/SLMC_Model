@@ -50,6 +50,11 @@ column_headers = [
 # TODO: Message in transition matrix/stats/calculator if data has not been uploaded
 # TODO: Fix this preprocessing so the entire app shows not just when there is data...?
 st.session_state.transition_matrix = pd.DataFrame(columns=['Current', '30 Days Delinquent', '60 Days Delinquent', '90+ Days Delinquent'])
+st.session_state.unique_loans = 0
+st.session_state.total_loan_value = 0
+st.session_state.avg_loan_balance = 0
+st.session_state.delinquency_rate = 0
+st.session_state.expected_loss = 0
 
 # Function to categorize delinquency status
 def categorize_delinquency_status(status):
@@ -192,13 +197,13 @@ if uploaded_files:
     st.write("Transition Probability Matrix with Logical Constraints")
     st.dataframe(st.session_state.transition_matrix)
 
-    # Display High-Level Statistics with hoverable Info Icons
-    st.header("Portfolio Summary Statistics", divider=True)
-    st.write(f"- **Unique Loans**: {st.session_state.unique_loans}", help="Number of distinct loans in the portfolio.")
-    st.write(f"- **Total Loan Value**: ${st.session_state.total_loan_value:,.2f}", help="Sum of maximum UPB (Unpaid Principal Balance) across all loans.")
-    st.write(f"- **Average Loan Balance**: ${st.session_state.avg_loan_balance:,.2f}", help="Average UPB of loans in the portfolio.")
-    st.write(f"- **Delinquency Rate**: {st.session_state.delinquency_rate:.2%}", help="Percentage of loans that are delinquent.")
-    st.write(f"#### Expected Loss based on LGD: ${st.session_state.expected_loss:,.2f}", help="Estimated loss if all delinquent loans default, calculated as Delinquency Rate × Total Loan Value × LGD.")
+# Display High-Level Statistics with hoverable Info Icons
+st.header("Portfolio Summary Statistics", divider=True)
+st.write(f"- **Unique Loans**: {st.session_state.unique_loans}")
+st.write(f"- **Total Loan Value**: ${st.session_state.total_loan_value:,.2f}")
+st.write(f"- **Average Loan Balance**: ${st.session_state.avg_loan_balance:,.2f}")
+st.write(f"- **Delinquency Rate**: {st.session_state.delinquency_rate:.2%}")
+st.write(f"#### Expected Loss based on LGD: ${st.session_state.expected_loss:,.2f}")
 
 st.header("Forward Looking Probability & Expectation", divider=True)
 # Transition Probability Calculator using Chapman-Kolmogorov equation
