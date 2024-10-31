@@ -77,6 +77,8 @@ st.header("Markov Chain Single-Family Model", divider=True)
 
 st.write("This app enables the user to develop a markov chain model for single-family loans available from Fannie Mae. Linked on the sidebar is the original data source along with an example of chunks to upload to the application (remember chunk uploads must be contiguous for state transitions!).")
 
+st.write("**This app is hosted using Streamlit, large data may not be processed on this server and is best handled on a local instance of this app. Please clone this repository to run the app locally on your machine: https://github.com/romanmichaelpaolucci/SLMC_Model**")
+
 # Sidebar Feature Toggles
 st.sidebar.title("Model Settings")
 lookback_period = st.sidebar.slider("Lookback Period (Months)", min_value=1, max_value=12, value=3)
@@ -224,7 +226,7 @@ if 'transition_matrix' in st.session_state:
     st.write("### Transition Probability Calculator")
     start_state = st.selectbox("Select Start State", list(st.session_state.transition_matrix.columns), key="start_state")
     end_state = st.selectbox("Select End State", list(st.session_state.transition_matrix.columns), key="end_state")
-    num_steps = st.number_input("Number of Months", min_value=1, max_value=12, value=1, key="num_steps")
+    num_steps = st.number_input("Number of Months", min_value=1, max_value=200, value=1, key="num_steps")
 
     if st.session_state.transition_matrix.size == 0:
         st.write("Please Upload Data in Appropriate Format (See Sidebar for Example!)")
@@ -264,7 +266,7 @@ if 'transition_matrix' in st.session_state:
     st.write("### Absorbing State Transition Probability Calculator")
     start_state_absorbing = st.selectbox("Select Start State (Absorbing Matrix)", list(absorbing_matrix.columns), key="start_state_absorbing")
     end_state_absorbing = st.selectbox("Select End State (Absorbing Matrix)", list(absorbing_matrix.columns), key="end_state_absorbing")
-    num_steps_absorbing = st.number_input("Number of Months (Absorbing Matrix)", min_value=1, max_value=12, value=1, key="num_steps_absorbing")
+    num_steps_absorbing = st.number_input("Number of Months (Absorbing Matrix)", min_value=1, max_value=200, value=1, key="num_steps_absorbing")
 
     if st.session_state.transition_matrix.size == 0:
         st.write("Please Upload Data in Appropriate Format (See Sidebar for Example!)")
