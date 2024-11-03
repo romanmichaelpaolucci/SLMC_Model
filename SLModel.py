@@ -221,12 +221,52 @@ if 'transition_matrix' in st.session_state:
         For a full proof see:
         """)
         st.video("https://www.youtube.com/watch?v=L3FqYBDw9fE")
+
+    st.write("Noticing after an arbitrary number of transitions the transition probability is constant? This is expected and is an example of how we can estimate the stationary distribution! Further, you may also notice that this isn't the case for the transition matrix consisting of an absorbing state as it violates the positive recurrence assumption. For more information and a mathematical definition see the expander:")
+    
+    # Expander for Steady-State Probabilities and Long-Run Equilibrium
+    with st.expander("Understanding Steady-State Probabilities and Long-Run Equilibrium"):
+        st.write(r"""
+        ### Steady-State Probabilities and Long-Run Equilibrium
+    
+        In a Markov chain, **steady-state probabilities** represent the long-run probability of being in each state, regardless of the initial state. This concept is also known as the **long-run equilibrium**. When a Markov chain reaches this equilibrium, the probability distribution of states becomes constant, meaning that further transitions no longer change the distribution.
+    
+        #### Mathematical Definition
+        Suppose we have a transition matrix $P$ for a Markov chain. The steady-state vector $\pi$ is a probability vector that satisfies:
+        
+        $\pi = \pi P$
+        
+        Alternatively, in the limit form, if we start with an initial state distribution $\pi_0$ and let the Markov chain evolve, then:
+        
+        $\pi = \lim_{n \to \infty} \pi_0 P^n$
+        
+        where $\pi$ is the **steady-state distribution** and $P^n$ represents the transition matrix raised to the power $n$. In practice, this means that as $n$ becomes large, the rows of $P^n$ converge to the steady-state probabilities, and the probabilities stabilize.
+    
+        #### Conditions for Reaching Steady State
+        For a Markov chain to reach steady-state probabilities, certain conditions must be met:
+        
+        1. **Irreducibility**: Every state must be reachable from every other state, either directly or through intermediate states.
+        2. **Aperiodicity**: The chain should not have fixed cycles; in other words, there should be no specific number of steps required to return to a state.
+        3. **Positive Recurrence**: The Markov chain should have a probability of returning to each state within a finite amount of time.
+        
+        If these conditions are satisfied, the Markov chain is called **ergodic**. An ergodic Markov chain has a unique steady-state distribution, which is reached regardless of the starting state.
+    
+        #### Importance of Steady-State Probabilities
+        Steady-state probabilities are highly useful for understanding the **long-term behavior** of a system. For example:
+        
+        - **Long-Term Predictions**: They allow us to predict the long-run proportion of time the system will spend in each state.
+        - **Arbitrarily Long Time Steps**: Once the chain reaches steady state, we no longer need to calculate transitions step-by-step. Instead, we can use the steady-state probabilities as an approximation for any arbitrarily long number of steps.
+        - **Risk Assessment and Planning**: In contexts such as credit modeling or asset risk, the steady-state probabilities help in assessing long-term exposure to states like delinquency or default, guiding decision-making and planning.
+    
+        By raising the transition matrix to a large power or solving for $\pi$, we can estimate the steady-state probabilities and gain insights into the expected long-term behavior of the system.
+        """)
+
     
     
     st.write("### Transition Probability Calculator")
     start_state = st.selectbox("Select Start State", list(st.session_state.transition_matrix.columns), key="start_state")
     end_state = st.selectbox("Select End State", list(st.session_state.transition_matrix.columns), key="end_state")
-    num_steps = st.number_input("Number of Months", min_value=1, max_value=200, value=1, key="num_steps")
+    num_steps = st.number_input("Number of Months", min_value=1, max_value=360, value=1, key="num_steps")
 
     if st.session_state.transition_matrix.size == 0:
         st.write("Please Upload Data in Appropriate Format (See Sidebar for Example!)")
@@ -266,7 +306,7 @@ if 'transition_matrix' in st.session_state:
     st.write("### Absorbing State Transition Probability Calculator")
     start_state_absorbing = st.selectbox("Select Start State (Absorbing Matrix)", list(absorbing_matrix.columns), key="start_state_absorbing")
     end_state_absorbing = st.selectbox("Select End State (Absorbing Matrix)", list(absorbing_matrix.columns), key="end_state_absorbing")
-    num_steps_absorbing = st.number_input("Number of Months (Absorbing Matrix)", min_value=1, max_value=200, value=1, key="num_steps_absorbing")
+    num_steps_absorbing = st.number_input("Number of Months (Absorbing Matrix)", min_value=1, max_value=360, value=1, key="num_steps_absorbing")
 
     if st.session_state.transition_matrix.size == 0:
         st.write("Please Upload Data in Appropriate Format (See Sidebar for Example!)")
